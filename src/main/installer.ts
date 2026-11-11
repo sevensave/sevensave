@@ -66,8 +66,17 @@ export async function extract(zip: string, dir: string, platform: Platform): Pro
     await run('/usr/bin/ditto', ['-x', '-k', zip, dir])
     return
   }
+  // extract-zip пишет через обычный fs, а в Electron он считает .asar папкой: на resources/app.asar
+  // игры-Electron запись зависает навсегда. Пока идёт распаковка, отключаем поддержку asar.
   const { default: extractZip } = await import('extract-zip')
-  await extractZip(zip, { dir })
+  const proc = process as NodeJS.Process & { noAsar?: boolean }
+  const prev = proc.noAsar
+  proc.noAsar = true
+  try {
+    await extractZip(zip, { dir })
+  } finally {
+    proc.noAsar = prev
+  }
 }
 
 /** Проверяет распакованную игру: исполняемый файл на месте, на Mac подпись цела. */
