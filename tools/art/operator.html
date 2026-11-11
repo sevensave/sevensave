@@ -1,0 +1,59 @@
+<!doctype html>
+<html><head><meta charset="utf-8" /><link rel="stylesheet" href="fonts.css" />
+<style>
+  /* Фон — настоящий кадр из игры (FPV над долиной, купол глушилки). */
+  body { width: 100vw; height: 100vh; position: relative; overflow: hidden; font-family: 'Onest'; background: #0d1112; }
+  .bg { position: absolute; inset: 0; background: url(operator-bg.jpg) center / cover no-repeat; filter: saturate(1.05) contrast(1.05); transform: scale(1.14); }
+  body.hero .bg { background-position: 60% 55%; }
+  body.cover .bg { background-position: 42% 50%; }
+  .vignette { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,13,14,.92) 0%, rgba(10,13,14,.55) 38%, transparent 62%); }
+  body.cover .vignette { background: linear-gradient(0deg, rgba(10,13,14,.95) 0%, rgba(10,13,14,.4) 45%, transparent 70%); }
+  .osd { position: absolute; color: #eef2e8; font-family: Menlo, Consolas, monospace; font-weight: 600; text-shadow: 0 .2vh .4vh rgba(0,0,0,.7); }
+  .cross { position: absolute; left: 62%; top: 52%; width: 6vh; height: 6vh; transform: translate(-50%,-50%); }
+  .cross::before, .cross::after { content: ''; position: absolute; background: #eef2e8; box-shadow: 0 0 .4vh rgba(0,0,0,.6); }
+  .cross::before { left: 0; right: 0; top: 50%; height: .35vh; transform: translateY(-50%);
+    -webkit-mask: linear-gradient(90deg, #000 38%, transparent 38% 62%, #000 62%); }
+  .cross::after { top: 0; height: 40%; left: 50%; width: .35vh; transform: translateX(-50%); }
+  .bars { display: flex; align-items: flex-end; gap: .6vh; height: 3.4vh; }
+  .bars i { display: block; width: 1.1vh; background: #eef2e8; }
+  .tag { position: absolute; border: .3vh solid #e8a33d; border-radius: 50%; width: 3.6vh; height: 3.6vh; }
+  .tag + .tl { position: absolute; color: #e8a33d; font-family: Menlo, Consolas, monospace; font-weight: 700; font-size: 3vh; }
+  .title { position: absolute; left: 7vh; bottom: 9vh; font-family: 'Unbounded'; font-weight: 800; color: #efe9de;
+    font-size: 13vh; line-height: .9; letter-spacing: -.02em; text-shadow: 0 1vh 3vh rgba(0,0,0,.6); }
+  .title b { color: #e8a33d; font-weight: 800; }
+  .sub { position: absolute; left: 7.4vh; bottom: 4.6vh; color: #d6dccf; opacity: .9; font-size: 2.7vh; }
+  body.cover .title { font-size: 9vh; left: 5vh; bottom: 11vh; }
+  body.cover .sub { left: 5.4vh; bottom: 6vh; font-size: 2.5vh; }
+  body.cover .cross { left: 50%; top: 38%; }
+  /* Иконка */
+  body.icon { background: transparent; }
+  .ic { position: absolute; inset: 72px; border-radius: 210px; overflow: hidden;
+    background: radial-gradient(90% 80% at 30% 20%, #2c3534, #161c1c 55%, #0e1212); box-shadow: inset 0 0 0 4px rgba(239,233,222,.08); }
+  .ic svg { position: absolute; inset: 120px; }
+</style></head>
+<body>
+<div id="root"></div>
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'hero'
+  document.body.classList.add(scene)
+  const root = document.getElementById('root')
+  if (scene === 'icon') {
+    root.innerHTML = `<div class="ic"><svg viewBox="0 0 100 100" fill="none" stroke-linecap="round">
+      <g stroke="#e8a33d" stroke-width="5.5">
+        <circle cx="24" cy="24" r="13"/><circle cx="76" cy="24" r="13"/><circle cx="24" cy="76" r="13"/><circle cx="76" cy="76" r="13"/>
+        <path d="M33 33 L67 67 M67 33 L33 67"/></g>
+      <rect x="39" y="39" width="22" height="22" rx="5" fill="#e8a33d"/>
+      <g stroke="#efe9de" stroke-width="3"><path d="M50 4 V14 M50 86 V96 M4 50 H14 M86 50 H96"/></g>
+    </svg></div>`
+  } else {
+    const bars = [1, 2, 3, 4, 2].map((h, i) => `<i style="height:${(i + 1) * 20}%;opacity:${i < 4 ? 1 : .25}"></i>`).join('')
+    root.innerHTML = `<div class="bg"></div><div class="vignette"></div><div class="cross"></div>
+      <div class="tag" style="left:${scene === 'cover' ? 58 : 70}%;top:${scene === 'cover' ? 30 : 40}%"></div>
+      <div class="tl" style="left:calc(${scene === 'cover' ? 58 : 70}% + 4.6vh);top:calc(${scene === 'cover' ? 30 : 40}% + .6vh)">ФИЛИН 412 м</div>
+      ${scene === 'hero' ? `<div class="osd" style="right:5vh;top:5vh;font-size:2.6vh;text-align:right">СКОР 168 км/ч<br>ВЫС&nbsp;&nbsp;14 м</div>
+      <div class="osd" style="right:5vh;bottom:5vh;display:flex;gap:1.4vh;align-items:flex-end;font-size:2.4vh">СВЯЗЬ <div class="bars">${bars}</div> 78%</div>` : ''}
+      <div class="title">Опе<b>ратор</b></div>
+      <div class="sub">${scene === 'hero' ? 'FPV-дроны для своей компании · удержи укрытие, останься последним' : 'FPV-дроны · 2–8 игроков'}</div>`
+  }
+</script>
+</body></html>

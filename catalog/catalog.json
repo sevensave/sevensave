@@ -42,6 +42,26 @@
         "hero": "hero.jpg",
         "screenshots": ["captain.jpg", "guess.jpg", "home.jpg"]
       }
+    },
+    {
+      "id": "operator",
+      "title": "Оператор",
+      "tagline": "FPV-дроны: удержи укрытие и останься последним",
+      "description": "Каждый — оператор дронов со своим укрытием и запасом жизней. Коптер висит и бьёт точно, самолёт летит дальше и быстрее. На пути к цели — слабеющая связь, ветер, батарея, глушилки и турели у чужих укрытий. Дрон о дрон — взрываются оба. Лобби по коду, боты на свободных местах, тренировка без интернета.",
+      "genre": "Экшен",
+      "players": "2–8 игроков",
+      "repo": "sevensave/operator",
+      "accent": "#e8a33d",
+      "assets": {
+        "win": "Operator-{version}-win-x64.zip"
+      },
+      "executable": { "mac": "Operator.app", "win": "Operator.exe" },
+      "art": {
+        "icon": "icon.png",
+        "cover": "cover.jpg",
+        "hero": "hero.jpg",
+        "screenshots": ["fpv.jpg", "lobby.jpg", "menu.jpg"]
+      }
     }
   ]
 }

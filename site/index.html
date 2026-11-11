@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sevensave</title>
-<meta name="description" content="Sevensave ставит, обновляет и запускает Ривер и Намёк — игры для своей компании." />
+<meta name="description" content="Sevensave ставит, обновляет и запускает Ривер, Намёк и Оператора — игры для своей компании." />
 <link rel="icon" href="favicon.png" />
 <link rel="apple-touch-icon" href="icon.png" />
 <meta property="og:title" content="Sevensave" />
-<meta property="og:description" content="Игры для своей компании: Ривер и Намёк. Скачай один раз, дальше всё в одну кнопку." />
+<meta property="og:description" content="Игры для своей компании: Ривер, Намёк и Оператор. Скачай один раз, дальше всё в одну кнопку." />
 <meta property="og:image" content="games/river.jpg" />
 <style>
   @font-face { font-family: 'Unbounded'; src: url('fonts/unbounded-cyrillic-wght-normal.woff2') format('woff2'); font-weight: 200 900; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
@@ -53,9 +53,10 @@
   .note { font-size: 14.5px; color: var(--muted); max-width: 44ch; }
 
   .shelf { position: relative; aspect-ratio: 1 / .78; }
-  .shelf a { position: absolute; width: 50%; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); }
-  .shelf a:first-child { left: 0; top: 9%; transform: rotate(-4deg); }
-  .shelf a:last-child { right: 0; top: 0; transform: rotate(3deg); }
+  .shelf a { position: absolute; width: 42%; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); }
+  .shelf a:nth-child(1) { left: 0; top: 11%; transform: rotate(-5deg); }
+  .shelf a:nth-child(2) { left: 29%; top: 0; transform: rotate(1deg); z-index: 1; }
+  .shelf a:nth-child(3) { right: 0; top: 13%; transform: rotate(5deg); z-index: 2; }
 
   section { padding: 72px 0; border-top: 1px solid var(--line); }
   h2 { margin: 0 0 32px; font: 700 clamp(26px, 3.4vw, 36px)/1.1 var(--display); letter-spacing: -.03em; }
@@ -66,6 +67,7 @@
   .game h3 { margin: 4px 0 0; font: 800 28px/1 var(--display); letter-spacing: -.03em; }
   .game--river h3 { color: var(--gold); }
   .game--namek h3 { color: var(--teal); }
+  .game--operator h3 { color: #e8a33d; }
   .game p { margin: 12px 0 0; font-size: 15.5px; color: #d7d0c4; }
   .game .who { font-size: 14px; color: var(--muted); }
 
@@ -118,6 +120,7 @@
       <div class="shelf" aria-hidden="true">
         <a href="#river" tabindex="-1"><img src="games/river.jpg" alt="" width="600" height="800" /></a>
         <a href="#namek" tabindex="-1"><img src="games/namek.jpg" alt="" width="600" height="800" /></a>
+        <a href="#operator" tabindex="-1"><img src="games/operator.jpg" alt="" width="600" height="800" /></a>
       </div>
     </div>
 
@@ -138,6 +141,14 @@
             <h3>Намёк</h3>
             <p>Ассоциации командами на поле 5 × 5. Капитан даёт одно слово и число, команда ищет, что он имел в виду. Одно слово на поле чёрное.</p>
             <p class="who">От 4 игроков</p>
+          </div>
+        </article>
+        <article class="game game--operator" id="operator">
+          <img src="games/operator.jpg" alt="Обложка Оператора: FPV-вид дрона над долиной" loading="lazy" width="600" height="800" />
+          <div>
+            <h3>Оператор</h3>
+            <p>FPV-дроны для своей компании. У каждого укрытие и несколько жизней, долететь мешают слабая связь, ветер, глушилки и турели. Дрон о дрон — взрываются оба, последний на связи побеждает.</p>
+            <p class="who">2–8 игроков</p>
           </div>
         </article>
       </div>
