@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8" /><link rel="stylesheet" href="fonts.css" />
+<style>
+  body { width: 100vw; height: 100vh; position: relative; font-family: 'Onest';
+    background: radial-gradient(70% 90% at 70% 40%, #1d2b44 0%, #121a2b 55%, #0b1120 100%); }
+  .stage { position: absolute; left: 66%; top: 50%; transform: translate(-50%, -50%) perspective(160vh) rotateX(38deg) rotateZ(-18deg); }
+  .grid { display: grid; grid-template-columns: repeat(5, 22vh); gap: 2vh; }
+  .t { height: 13vh; border-radius: 1.6vh; display: grid; place-items: center; font-family: 'Unbounded'; font-weight: 700;
+    font-size: 2.6vh; color: #1e2230; background: #ece6da; box-shadow: 0 1.2vh 0 #b9b2a3, 0 3vh 4vh rgba(0,0,0,.35); }
+  .a { background: #f0a63a; color: #5c3a06; box-shadow: 0 1.2vh 0 #b8771c, 0 3vh 4vh rgba(0,0,0,.35); }
+  .b { background: #2fb7a4; color: #08352f; box-shadow: 0 1.2vh 0 #1d8273, 0 3vh 4vh rgba(0,0,0,.35); }
+  .k { background: #0c0d12; color: #e5675f; box-shadow: 0 1.2vh 0 #000, 0 3vh 4vh rgba(0,0,0,.5); }
+  .n { background: #c9c3b6; color: #514c42; }
+  .clue { position: absolute; font-family: 'Unbounded'; font-weight: 800; color: #2fb7a4; letter-spacing: -.01em; }
+  .clue span { color: #ece6da; font-weight: 300; margin-left: .3em; }
+  .title { position: absolute; left: 7vh; bottom: 8vh; font-family: 'Unbounded'; font-weight: 800; color: #ece6da;
+    font-size: 13vh; line-height: .9; letter-spacing: -.02em; text-shadow: 0 1vh 3vh rgba(0,0,0,.5); }
+  .sub { position: absolute; left: 7.4vh; bottom: 4.4vh; color: #c9d3e6; opacity: .85; font-size: 2.6vh; }
+  .vignette { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,17,32,.9), transparent 45%); }
+  body.cover .vignette { background: linear-gradient(0deg, rgba(11,17,32,.95), transparent 55%); }
+  body.cover .stage { left: 50%; top: 40%; }
+  body.cover .grid { grid-template-columns: repeat(5, 18vh); }
+</style></head>
+<body>
+  <div class="stage"><div class="grid" id="grid"></div></div>
+  <div class="vignette"></div>
+  <div id="extra"></div>
+<script>
+  const scene = new URLSearchParams(location.search).get('scene')
+  document.body.classList.add(scene)
+  const words = ['КЛЮЧ','ВОЛНА','МАЯК','ОРГАН','ЗАМОК','ПЕРО','КИТ','ТЕНЬ','КОРОНА','ЛУК','ЭХО','ЯКОРЬ','ПОРТ','ЛУНА','КОМПАС','СЫР','ТОПОР','РАДУГА','КАПЛЯ','УЛЕЙ','ВЕЕР','МЕТРО','ГНОМ','НОРА','ЦЕПЬ']
+  const kind = 'bnab abnk bnaab nbanb anbab'.replace(/ /g, '')
+  document.getElementById('grid').innerHTML = words.map((w, i) => `<div class="t ${kind[i]}">${w}</div>`).join('')
+  const extra = document.getElementById('extra')
+  if (scene === 'hero') extra.innerHTML = '<div class="clue" style="left:10vh;top:16vh;font-size:9vh">МОРЕ<span>3</span></div>'
+  else extra.innerHTML = '<div class="title">Намёк</div><div class="sub">Ассоциации командами, 5 × 5</div>'
+</script>
+</body></html>

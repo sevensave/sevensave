@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "games": [
+    {
+      "id": "river",
+      "title": "Ривер",
+      "tagline": "Холдем и блэкджек для своей компании",
+      "description": "Техасский холдем без лимита и блэкджек. Один создаёт стол, остальные заходят по шестизначному коду. Без регистрации и денег: только фишки и друзья. Турнир с растущими блайндами или кэш-игра с докупкой.",
+      "genre": "Карточная",
+      "players": "2–9 игроков",
+      "repo": "vldvr/river",
+      "accent": "#f0b357",
+      "assets": {
+        "mac": "River-{version}-mac-{arch}.zip",
+        "win": "River-{version}-win-x64.zip"
+      },
+      "executable": { "mac": "River.app", "win": "River.exe" },
+      "art": {
+        "icon": "icon.png",
+        "cover": "cover.jpg",
+        "hero": "hero.jpg",
+        "screenshots": ["table.jpg", "home.jpg"]
+      }
+    },
+    {
+      "id": "namek",
+      "title": "Намёк",
+      "tagline": "Ассоциации командами на поле 5 × 5",
+      "description": "На поле 25 слов, у каждой команды свои. Капитан видит, где чьё, и даёт намёк: одно слово и число. Команда ищет, что он имел в виду. Одно слово чёрное: открыл его — проиграл. Комната по коду, можно загрузить свои слова.",
+      "genre": "Словесная",
+      "players": "от 4 игроков",
+      "repo": "vldvr/namek",
+      "accent": "#2fb7a4",
+      "assets": {
+        "mac": "Namek-{version}-mac-{arch}.zip",
+        "win": "Namek-{version}-win-x64.zip"
+      },
+      "executable": { "mac": "Namek.app", "win": "Namek.exe" },
+      "art": {
+        "icon": "icon.png",
+        "cover": "cover.jpg",
+        "hero": "hero.jpg",
+        "screenshots": ["captain.jpg", "guess.jpg", "home.jpg"]
+      }
+    }
+  ]
+}

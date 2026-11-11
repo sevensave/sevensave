@@ -1,0 +1,43 @@
+{
+  "name": "sevensave",
+  "productName": "Sevensave",
+  "version": "0.1.0",
+  "description": "Sevensave: библиотека игр — установка, обновление и запуск в одну кнопку",
+  "author": "Sevensave",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "test": "vitest run",
+    "art": "electron tools/render-art.cjs",
+    "pack:mac": "npm run build && electron-builder --mac --publish never",
+    "pack:win": "npm run build && electron-builder --win --x64 --publish never"
+  },
+  "dependencies": {
+    "electron-updater": "6.8.11",
+    "extract-zip": "2.0.1"
+  },
+  "devDependencies": {
+    "@fontsource-variable/onest": "^5.3.1",
+    "@fontsource-variable/unbounded": "^5.3.0",
+    "@phosphor-icons/react": "2.1.10",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "electron": "45.1.0",
+    "electron-builder": "26.18.0",
+    "electron-vite": "6.0.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "vitest": "5.0.5",
+    "zod": "4.6.7",
+    "zustand": "5.0.16"
+  }
+}

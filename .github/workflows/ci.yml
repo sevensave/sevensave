@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  windows:
+    # Сборка на настоящем Windows: тесты (распаковка, замена папки) и упаковка без установщика.
+    runs-on: windows-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npx electron-builder --win --x64 --dir --publish never
+      - name: Каталог и арт попали в сборку
+        shell: bash
+        run: |
+          test -f release/win-unpacked/Sevensave.exe
+          test -f release/win-unpacked/resources/catalog/catalog.json
+          test -f release/win-unpacked/resources/catalog/assets/river/hero.jpg

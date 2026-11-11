@@ -1,0 +1,52 @@
+<!doctype html>
+<html><head><meta charset="utf-8" /><link rel="stylesheet" href="fonts.css" />
+<style>
+  body { width: 100vw; height: 100vh; position: relative; background: #0d1f18; font-family: 'Onest'; }
+  .felt { position: absolute; inset: 0;
+    background:
+      radial-gradient(60% 80% at 62% 55%, #2f7d5c 0%, #1e5641 45%, #0f2d22 80%, #0a1c15 100%); }
+  .rail { position: absolute; left: 50%; top: 58%; width: 150vw; height: 120vh; transform: translate(-38%, -50%);
+    border-radius: 50%; box-shadow: inset 0 0 0 3vh #2a1a12, inset 0 0 0 3.4vh rgba(240,179,87,.18), inset 0 0 12vh rgba(0,0,0,.5); }
+  .grain { position: absolute; inset: 0; opacity: .18; mix-blend-mode: overlay;
+    background-image: repeating-radial-gradient(circle at 30% 40%, rgba(255,255,255,.2) 0 1px, transparent 1px 3px); }
+  .card { position: absolute; width: 15vh; height: 21vh; border-radius: 1.4vh; background: #f6efe2;
+    box-shadow: 0 2vh 4vh rgba(0,0,0,.45), inset 0 0 0 .3vh rgba(0,0,0,.06);
+    font-family: 'Unbounded'; font-weight: 700; color: #1b1b1b; }
+  .card .r { position: absolute; left: 1.4vh; top: 1vh; font-size: 4.2vh; line-height: 1; }
+  .card .s { position: absolute; left: 1.6vh; top: 5.6vh; font-size: 3.4vh; }
+  .card .big { position: absolute; right: 1.6vh; bottom: .6vh; font-size: 10vh; line-height: 1; }
+  .red { color: #c8343c; }
+  .chip { position: absolute; width: 9vh; height: 9vh; border-radius: 50%;
+    background: radial-gradient(circle, var(--c) 0 52%, #f6efe2 52% 58%, var(--c) 58% 100%);
+    box-shadow: 0 .8vh 0 rgba(0,0,0,.35), 0 1.4vh 2.4vh rgba(0,0,0,.4); }
+  .chip::after { content: ''; position: absolute; inset: 0; border-radius: 50%;
+    background: repeating-conic-gradient(#f6efe2 0 12deg, transparent 12deg 45deg); mask: radial-gradient(circle, transparent 62%, #000 63% 96%, transparent 97%); }
+  .glow { position: absolute; left: 62%; top: 30%; width: 90vh; height: 90vh; transform: translate(-50%,-50%);
+    background: radial-gradient(closest-side, rgba(255,214,150,.22), transparent); }
+  .title { position: absolute; left: 7vh; bottom: 8vh; font-family: 'Unbounded'; font-weight: 800; color: #f0b357;
+    font-size: 15vh; line-height: .9; letter-spacing: -.02em; text-shadow: 0 1vh 3vh rgba(0,0,0,.5); }
+  .sub { position: absolute; left: 7.4vh; bottom: 4.4vh; color: #e9dcc4; opacity: .85; font-size: 2.6vh; }
+  body.cover .card { width: 13vh; height: 18vh; }
+</style></head>
+<body>
+  <div class="felt"></div><div class="rail"></div><div class="glow"></div><div class="grain"></div>
+  <div id="scene"></div>
+<script>
+  const scene = new URLSearchParams(location.search).get('scene')
+  document.body.classList.add(scene)
+  const card = (r, s, red, x, y, rot) =>
+    `<div class="card ${red ? 'red' : ''}" style="left:${x};top:${y};transform:rotate(${rot}deg)"><div class="r">${r}</div><div class="s">${s}</div><div class="big">${s}</div></div>`
+  const chip = (c, x, y) => `<div class="chip" style="--c:${c};left:${x};top:${y}"></div>`
+  let html = ''
+  if (scene === 'hero') {
+    html += card('A', '♠', false, '58%', '22%', -14) + card('K', '♥', true, '66%', '18%', -3) + card('Q', '♥', true, '74%', '21%', 9)
+    html += card('10', '♣', false, '83%', '30%', 18) + card('J', '♦', true, '90%', '44%', 26)
+    html += chip('#c8343c', '52%', '64%') + chip('#1f3f8a', '57%', '72%') + chip('#c8343c', '61%', '63%') + chip('#202020', '47%', '74%')
+  } else {
+    html += card('A', '♠', false, '20%', '14%', -16) + card('A', '♥', true, '45%', '11%', 8)
+    html += chip('#c8343c', '18%', '46%') + chip('#1f3f8a', '34%', '50%') + chip('#202020', '62%', '44%')
+    html += '<div class="title">Ривер</div><div class="sub">Холдем и блэкджек для своих</div>'
+  }
+  document.getElementById('scene').innerHTML = html
+</script>
+</body></html>

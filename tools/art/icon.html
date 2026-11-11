@@ -1,0 +1,14 @@
+<!doctype html>
+<html><head><meta charset="utf-8" /><link rel="stylesheet" href="fonts.css" />
+<style>
+  body { width: 1024px; height: 1024px; background: transparent; }
+  .icon { position: absolute; inset: 72px; border-radius: 210px; overflow: hidden;
+    background: radial-gradient(90% 80% at 30% 20%, #3a3050, #211c2b 55%, #16131d); box-shadow: inset 0 0 0 4px rgba(239,233,222,.08); }
+  /* Ячейка сохранения: прорезь сверху, как у слота, и семёрка. */
+  .slot { position: absolute; left: 50%; top: 150px; width: 420px; height: 46px; transform: translateX(-50%);
+    border-radius: 23px; background: #0e0c13; box-shadow: inset 0 6px 12px rgba(0,0,0,.6); }
+  .seven { position: absolute; inset: 0; display: grid; place-items: center; padding-top: 90px;
+    font-family: 'Unbounded'; font-weight: 800; font-size: 600px; line-height: 1; color: #efe9de;
+    background: linear-gradient(160deg, #f0b357 10%, #efe9de 45%, #2fb7a4 95%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+</style></head>
+<body><div class="icon"><div class="slot"></div><div class="seven">7</div></div></body></html>

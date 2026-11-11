@@ -1,0 +1,93 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Тег, который пересобрать (например v0.1.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  # Черновик заводим один раз до сборок: параллельные загрузки иначе плодят дубли релиза.
+  draft:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - name: Проверить соответствие версии тегу
+        run: |
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          test "$PKG_VERSION" = "${TAG#v}" || { echo "package.json ($PKG_VERSION) не совпадает с тегом ($TAG)"; exit 1; }
+      - name: Черновик релиза
+        run: gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --draft --title "Sevensave $TAG" --notes ""
+
+  windows:
+    needs: draft
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: ${{ inputs.tag || github.ref_name }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Собрать установщик
+        run: |
+          rm -rf release
+          npx electron-builder --win --x64 --publish never
+      # Sevensave-Setup.exe — постоянное имя для сайта; latest.yml — для самообновления.
+      - name: Загрузить в релиз
+        run: gh release upload "$TAG" release/Sevensave-Setup.exe release/*.blockmap release/latest.yml --clobber
+
+  mac:
+    needs: draft
+    runs-on: macos-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Собрать dmg и zip
+        run: |
+          rm -rf release
+          npx electron-builder --mac --publish never
+      # dmg с постоянным именем — для сайта; zip с версией — для самообновления на Mac.
+      - name: Загрузить в релиз
+        run: gh release upload "$TAG" release/Sevensave-mac-*.dmg release/Sevensave-*-mac-*.zip --clobber
+
+  publish:
+    needs: [windows, mac]
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - name: Опубликовать релиз
+        run: gh release edit "$TAG" -R "$GITHUB_REPOSITORY" --draft=false --latest
