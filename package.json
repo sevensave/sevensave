@@ -1,7 +1,7 @@
 {
   "name": "sevensave",
   "productName": "Sevensave",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sevensave: библиотека игр — установка, обновление и запуск в одну кнопку",
   "author": "Sevensave",
   "license": "MIT",
