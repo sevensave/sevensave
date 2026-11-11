@@ -7,7 +7,7 @@ import { CatalogSchema, type Catalog, type Game } from '../shared/catalog'
 import type { GameView } from '../preload/api'
 
 /** Свежий каталог: новая игра появляется у всех без выпуска нового лаунчера. */
-export const REMOTE_BASE = 'https://raw.githubusercontent.com/vldvr/sevensave/main/catalog'
+export const REMOTE_BASE = 'https://raw.githubusercontent.com/sevensave/sevensave/main/catalog'
 export const ASSET_SCHEME = 'sevensave-asset'
 
 /** Каталог, вшитый в сборку. В dev — папка catalog в корне проекта. */

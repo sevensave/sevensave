@@ -50,6 +50,6 @@ dmg:
   artifactName: Sevensave-mac-${arch}.${ext}
 publish:
   provider: github
-  owner: vldvr
+  owner: sevensave
   repo: sevensave
   releaseType: draft

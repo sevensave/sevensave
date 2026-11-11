@@ -11,9 +11,8 @@ import { newer } from '../shared/version'
 import type { UpdateState } from '../preload/api'
 
 /** Сборки лаунчера. Игроку адрес не показываем: ссылка «скачать вручную» ведёт на сайт. */
-const REPO = 'vldvr/sevensave'
-// Домен сайта ещё не выбран: поменять здесь вместе с CNAME в site/.
-export const SITE_URL = 'https://sevensave.me'
+const REPO = 'sevensave/sevensave'
+export const SITE_URL = 'https://sevensave.github.io'
 const run = promisify(execFile)
 
 interface Release {
