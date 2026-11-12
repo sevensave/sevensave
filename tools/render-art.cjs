@@ -13,6 +13,8 @@ const jobs = [
   { page: 'operator.html', scene: 'hero', w: 1600, h: 640, out: ['catalog/assets/operator/hero.jpg'] },
   { page: 'operator.html', scene: 'cover', w: 600, h: 800, out: ['catalog/assets/operator/cover.jpg', 'site/games/operator.jpg'] },
   { page: 'operator.html', scene: 'icon', w: 1024, h: 1024, out: ['catalog/assets/operator/icon.png:256'] },
+  { page: 'ktoya.html', scene: 'hero', w: 1600, h: 640, out: ['catalog/assets/ktoya/hero.jpg'] },
+  { page: 'ktoya.html', scene: 'cover', w: 600, h: 800, out: ['catalog/assets/ktoya/cover.jpg', 'site/games/ktoya.jpg'] },
   { page: 'icon.html', scene: 'icon', w: 1024, h: 1024, out: ['build/icon.png', 'resources/icon.png:256', 'site/icon.png:180', 'site/favicon.png:64', 'src/renderer/src/assets/mark.png:128'] },
 ]
 

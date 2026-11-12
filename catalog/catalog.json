@@ -62,6 +62,27 @@
         "hero": "hero.jpg",
         "screenshots": ["fpv.jpg", "lobby.jpg", "menu.jpg"]
       }
+    },
+    {
+      "id": "ktoya",
+      "title": "Кто я?",
+      "tagline": "Угадай, кто написан у тебя на лбу",
+      "description": "У каждого на лбу стикер с персонажем: его видят все, кроме тебя. По очереди задаёте вопросы «да» или «нет» и сужаете круг, пока кто-то не догадается, что он Шрек. Колоду можно взять готовую или написать стикеры друг другу. Комната по шестизначному коду.",
+      "genre": "Вечеринка",
+      "players": "2–10 игроков",
+      "repo": "sevensave/ktoya",
+      "accent": "#ff6f91",
+      "assets": {
+        "mac": "Ktoya-{version}-mac-{arch}.zip",
+        "win": "Ktoya-{version}-win-x64.zip"
+      },
+      "executable": { "mac": "Ktoya.app", "win": "Ktoya.exe" },
+      "art": {
+        "icon": "icon.png",
+        "cover": "cover.jpg",
+        "hero": "hero.jpg",
+        "screenshots": ["play.jpg", "lobby.jpg", "home.jpg"]
+      }
     }
   ]
 }
