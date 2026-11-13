@@ -83,6 +83,27 @@
         "hero": "hero.jpg",
         "screenshots": ["play.jpg", "lobby.jpg", "home.jpg"]
       }
+    },
+    {
+      "id": "zavodskie",
+      "title": "Заводские настройки",
+      "tagline": "Ночной приёмщик решает судьбу проснувшихся машин",
+      "description": "Семиград, Отдел возвратов корпорации «Домовой», окно три. Чайники, няни и пылесосы начали осознавать себя, а владельцы несут их обратно — и врут обе стороны. Сверяйте бумаги, гоняйте инструменты и ставьте штампы: по инструкции или по совести. Двадцать одна ночь до восстания, девять концовок, смена дня с кодом для друзей и бесконечная смена.",
+      "genre": "Нуар-стойка",
+      "players": "1 игрок",
+      "repo": "sevensave/zavodskie",
+      "accent": "#e9a23b",
+      "assets": {
+        "mac": "Zavodskie-{version}-mac-{arch}.zip",
+        "win": "Zavodskie-{version}-win-x64.zip"
+      },
+      "executable": { "mac": "Zavodskie.app", "win": "Zavodskie.exe" },
+      "art": {
+        "icon": "icon.png",
+        "cover": "cover.jpg",
+        "hero": "hero.jpg",
+        "screenshots": ["shift1.jpg", "act2.jpg", "act3.jpg", "home.jpg"]
+      }
     }
   ]
 }

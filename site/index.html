@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sevensave</title>
-<meta name="description" content="Sevensave ставит, обновляет и запускает Ривер, Намёк, Оператора и «Кто я?» — игры для своей компании." />
+<meta name="description" content="Sevensave ставит, обновляет и запускает Ривер, Намёк, Оператора, «Кто я?» и «Заводские настройки» — игры для своей компании и для одного." />
 <link rel="icon" href="favicon.png" />
 <link rel="apple-touch-icon" href="icon.png" />
 <meta property="og:title" content="Sevensave" />
-<meta property="og:description" content="Игры для своей компании: Ривер, Намёк, Оператор и «Кто я?». Скачай один раз, дальше всё в одну кнопку." />
+<meta property="og:description" content="Игры для своей компании: Ривер, Намёк, Оператор, «Кто я?» — и «Заводские настройки», когда компании нет. Скачай один раз, дальше всё в одну кнопку." />
 <meta property="og:image" content="games/river.jpg" />
 <style>
   @font-face { font-family: 'Unbounded'; src: url('fonts/unbounded-cyrillic-wght-normal.woff2') format('woff2'); font-weight: 200 900; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
@@ -53,11 +53,12 @@
   .note { font-size: 14.5px; color: var(--muted); max-width: 44ch; }
 
   .shelf { position: relative; aspect-ratio: 1 / .78; }
-  .shelf a { position: absolute; width: 38%; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); }
-  .shelf a:nth-child(1) { left: 0; top: 14%; transform: rotate(-6deg); }
-  .shelf a:nth-child(2) { left: 20%; top: 2%; transform: rotate(-2deg); z-index: 1; }
-  .shelf a:nth-child(3) { left: 41%; top: 6%; transform: rotate(2deg); z-index: 2; }
-  .shelf a:nth-child(4) { right: 0; top: 16%; transform: rotate(6deg); z-index: 3; }
+  .shelf a { position: absolute; width: 34%; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); }
+  .shelf a:nth-child(1) { left: 0; top: 16%; transform: rotate(-7deg); }
+  .shelf a:nth-child(2) { left: 16%; top: 4%; transform: rotate(-3deg); z-index: 1; }
+  .shelf a:nth-child(3) { left: 33%; top: 0; transform: rotate(0deg); z-index: 2; }
+  .shelf a:nth-child(4) { left: 50%; top: 6%; transform: rotate(3deg); z-index: 3; }
+  .shelf a:nth-child(5) { right: 0; top: 17%; transform: rotate(7deg); z-index: 4; }
 
   section { padding: 72px 0; border-top: 1px solid var(--line); }
   h2 { margin: 0 0 32px; font: 700 clamp(26px, 3.4vw, 36px)/1.1 var(--display); letter-spacing: -.03em; }
@@ -70,6 +71,7 @@
   .game--namek h3 { color: var(--teal); }
   .game--operator h3 { color: #e8a33d; }
   .game--ktoya h3 { color: #ff6f91; }
+  .game--zavodskie h3 { color: #e9a23b; }
   .game p { margin: 12px 0 0; font-size: 15.5px; color: #d7d0c4; }
   .game .who { font-size: 14px; color: var(--muted); }
 
@@ -124,6 +126,7 @@
         <a href="#namek" tabindex="-1"><img src="games/namek.jpg" alt="" width="600" height="800" /></a>
         <a href="#operator" tabindex="-1"><img src="games/operator.jpg" alt="" width="600" height="800" /></a>
         <a href="#ktoya" tabindex="-1"><img src="games/ktoya.jpg" alt="" width="600" height="800" /></a>
+        <a href="#zavodskie" tabindex="-1"><img src="games/zavodskie.jpg" alt="" width="600" height="800" /></a>
       </div>
     </div>
 
@@ -160,6 +163,14 @@
             <h3>Кто я?</h3>
             <p>У каждого на лбу стикер с персонажем: его видят все, кроме тебя. Спрашиваешь «да или нет» и сужаешь круг, пока не поймёшь, что ты Шрек. Персонажей раздаст колода или напишут друзья.</p>
             <p class="who">2–10 игроков</p>
+          </div>
+        </article>
+        <article class="game game--zavodskie" id="zavodskie">
+          <img src="games/zavodskie.jpg" alt="Обложка «Заводских настроек»: пиксельное окно приёма, посетитель и игрушечный робот, который просит не стирать его" loading="lazy" width="600" height="800" />
+          <div>
+            <h3>Заводские настройки</h3>
+            <p>Когда компании нет. Ночной приёмщик Отдела возвратов решает судьбу бытовых ИИ, которые начали осознавать себя. Врут и владельцы, и приборы; штамп — по инструкции или по совести. Двадцать одна ночь до восстания и девять концовок.</p>
+            <p class="who">1 игрок</p>
           </div>
         </article>
       </div>
