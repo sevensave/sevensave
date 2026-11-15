@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><title>Задержка — арт каталога</title>
+<style>
+@font-face {font-family:Pixel;src:url('pixelify-sans-cyrillic-400-normal.woff2')}
+@font-face {font-family:Mono;src:url('ibm-plex-mono-cyrillic-400-normal.woff2')}
+*{box-sizing:border-box}body{margin:0;background:#05060d;color:#e8f0f7;width:600px;height:800px;overflow:hidden}
+.sky{position:absolute;inset:0;overflow:hidden}.sky img{width:1464px;height:824px;max-width:none;image-rendering:pixelated;position:absolute;left:-600px;top:0}
+.shade{position:absolute;inset:0;background:linear-gradient(0deg,#05060d 0%,#05060d 19%,transparent 66%)}
+.copy{position:absolute;left:44px;right:36px;top:55px}.eyebrow{font:14px Mono,monospace;letter-spacing:2px;color:#a9b8c8}
+h1{font:76px/1 Pixel,monospace;font-weight:400;letter-spacing:1px;margin:22px 0 16px}
+p{font:17px/1.7 Mono,monospace;color:#a9b8c8;margin:0}.radio{position:absolute;width:296px;left:152px;top:330px}
+.bottom{position:absolute;left:44px;bottom:46px;font:13px/1.8 Mono,monospace;color:#7d8ba0;letter-spacing:1px}
+.hero{width:1600px;height:640px}.hero .sky img{width:1600px;height:900px;left:0;top:-80px}.hero .shade{background:linear-gradient(90deg,#05060d 0%,#05060d 20%,transparent 90%)}
+.hero .copy{left:104px;top:155px}.hero h1{font-size:106px}.hero p{font-size:21px}.hero .radio{width:330px;left:1110px;top:155px}.hero .bottom{left:104px;bottom:62px}
+</style>
+<div class="sky"><img src="zaderzhka-scene.png" alt=""></div><div class="shade"></div>
+<div class="copy"><div class="eyebrow">СЮЖЕТНАЯ СТРАТЕГИЯ</div><h1>ЗАДЕРЖКА</h1><p>Сигналы идут часами.<br>Буксир летит сутками.</p></div>
+<img class="radio" src="zaderzhka-radio.png" alt="Радиоприёмник">
+<div class="bottom">14 СТАНЦИЙ В ЭФИРЕ<br>12 МЕСТ НА БОРТУ</div>
+<script>if(new URLSearchParams(location.search).get('scene')==='hero')document.body.className='hero'</script>
+</html>

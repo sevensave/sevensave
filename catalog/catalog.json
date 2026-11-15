@@ -104,6 +104,27 @@
         "hero": "hero.jpg",
         "screenshots": ["shift1.jpg", "act2.jpg", "act3.jpg", "home.jpg"]
       }
+    },
+    {
+      "id": "zaderzhka",
+      "title": "Задержка",
+      "tagline": "Сигналы идут часами. Буксир летит сутками.",
+      "description": "Двадцать один день на спасательном буксире во внешнем поясе. Диспетчер дала курс на четыре станции, но сигналы идут часами, и мир уходит от расчёта. Чините курс на ходу: меняйте скорость, сливайте топливо на стоянках, просите станции экономить воздух. Двенадцать мест на борту, четырнадцать станций в эфире. Пока летите к одним, отвечайте другим.",
+      "genre": "Сюжетная стратегия",
+      "players": "1 игрок",
+      "repo": "sevensave/zaderzhka",
+      "accent": "#ffb347",
+      "assets": {
+        "mac": "Zaderzhka-{version}-mac-{arch}.zip",
+        "win": "Zaderzhka-{version}-win-x64.zip"
+      },
+      "executable": { "mac": "Zaderzhka.app", "win": "Zaderzhka.exe" },
+      "art": {
+        "icon": "icon.png",
+        "cover": "cover.jpg",
+        "hero": "hero.jpg",
+        "screenshots": ["bridge.jpg", "planner.jpg", "card.jpg", "journal.jpg"]
+      }
     }
   ]
 }

@@ -6,6 +6,8 @@ const { join, dirname } = require('node:path')
 
 const root = join(__dirname, '..')
 const jobs = [
+  { page: 'zaderzhka.html', scene: 'hero', w: 1600, h: 640, out: ['catalog/assets/zaderzhka/hero.jpg'] },
+  { page: 'zaderzhka.html', scene: 'cover', w: 600, h: 800, out: ['catalog/assets/zaderzhka/cover.jpg', 'site/games/zaderzhka.jpg'] },
   { page: 'river.html', scene: 'hero', w: 1600, h: 640, out: ['catalog/assets/river/hero.jpg'] },
   { page: 'river.html', scene: 'cover', w: 600, h: 800, out: ['catalog/assets/river/cover.jpg'] },
   { page: 'namek.html', scene: 'hero', w: 1600, h: 640, out: ['catalog/assets/namek/hero.jpg'] },
