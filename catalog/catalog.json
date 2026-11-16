@@ -170,11 +170,11 @@
       "art": {
         "icon": "icon.png",
         "cover": "cover.png",
-        "hero": "hero.png",
+        "hero": "hero-0.7.1.png",
         "screenshots": [
-          "agent.png",
-          "coordinator.png",
-          "archive.png"
+          "agent-0.7.1.png",
+          "coordinator-0.7.1.png",
+          "archive-0.7.1.png"
         ]
       }
     }
