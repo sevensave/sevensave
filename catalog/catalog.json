@@ -125,6 +125,30 @@
         "hero": "hero.jpg",
         "screenshots": ["bridge.jpg", "planner.jpg", "card.jpg", "journal.jpg"]
       }
+    },
+    {
+      "id": "alias",
+      "title": "Алиас",
+      "tagline": "Объясняйте слова, каждый за своим экраном",
+      "description": "Командная игра в слова. Создайте комнату и позовите друзей по шестизначному коду. Только объясняющий видит слово, остальные угадывают голосом в своём звонке или в общем чате. 2–4 команды, 240 слов, общий таймер и счёт. После обрыва связи можно вернуться на своё место. Тёмная тема включена по умолчанию.",
+      "genre": "Вечеринка",
+      "players": "4–16 игроков",
+      "repo": "sevensave/alias",
+      "accent": "#94aaff",
+      "assets": {
+        "mac": "Alias-{version}-mac-{arch}.zip",
+        "win": "Alias-{version}-win-x64.zip"
+      },
+      "executable": {
+        "mac": "Alias.app",
+        "win": "Alias.exe"
+      },
+      "art": {
+        "icon": "icon.png",
+        "cover": "cover.jpg",
+        "hero": "hero.jpg",
+        "screenshots": []
+      }
     }
   ]
 }
