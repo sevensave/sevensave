@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { execFile } from 'node:child_process'
 import { fs, fsp } from './fsx'
 import { join } from 'node:path'
@@ -32,6 +33,7 @@ export async function download(
   size: number,
   signal: AbortSignal,
   onProgress: (p: Progress) => void,
+  digest?: string,
 ): Promise<void> {
   let res: Response
   try {
@@ -41,9 +43,11 @@ export async function download(
     throw new Error('Нет связи с сервером загрузки', { cause: e })
   }
   if (!res.ok || !res.body) throw new Error(`Сервер загрузки ответил ${res.status}`)
+  const hash = digest ? createHash('sha256') : null
   let received = 0
   const count = new Transform({
     transform(chunk: Buffer, _enc, cb) {
+      hash?.update(chunk)
       received += chunk.length
       onProgress({ received, total: size })
       cb(null, chunk)
@@ -57,7 +61,11 @@ export async function download(
   }
   const got = (await fsp.stat(dest)).size
   if (got !== size) throw new Error(`Файл скачался не целиком: ${got} из ${size} байт`)
+  if (hash && `sha256:${hash.digest('hex')}` !== digest) throw new Error('Контрольная сумма загрузки не совпала')
 }
+
+let extractsInProgress = 0
+let previousAsar = false
 
 /** Распаковка: на Mac через ditto (сохраняет права и подпись .app), на Windows через extract-zip. */
 export async function extract(zip: string, dir: string, platform: Platform): Promise<void> {
@@ -70,12 +78,14 @@ export async function extract(zip: string, dir: string, platform: Platform): Pro
   // игры-Electron запись зависает навсегда. Пока идёт распаковка, отключаем поддержку asar.
   const { default: extractZip } = await import('extract-zip')
   const proc = process as NodeJS.Process & { noAsar?: boolean }
-  const prev = proc.noAsar
-  proc.noAsar = true
+  if (extractsInProgress++ === 0) {
+    previousAsar = proc.noAsar
+    proc.noAsar = true
+  }
   try {
     await extractZip(zip, { dir })
   } finally {
-    proc.noAsar = prev
+    if (--extractsInProgress === 0) proc.noAsar = previousAsar
   }
 }
 

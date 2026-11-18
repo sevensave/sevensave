@@ -20,6 +20,8 @@ export const GameSchema = z.object({
   repo: z.string().regex(/^[\w.-]+\/[\w.-]+$/),
   accent: z.string().regex(/^#[0-9a-f]{6}$/i),
   assets: z.object({ mac: assetTemplate.optional(), win: assetTemplate.optional() }),
+  /** Компактная сборка игры. Лаунчер ставит её, если компьютер её потянет, иначе обычную из assets. */
+  light: z.object({ mac: assetTemplate.optional(), win: assetTemplate.optional() }).optional(),
   /** Что запускать внутри папки игры: X.app на Mac, X.exe на Windows. */
   executable: z.object({
     mac: z.string().regex(/^[\w .-]+\.app$/),

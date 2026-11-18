@@ -39,6 +39,16 @@ describe('pickAsset', () => {
     expect(pickAsset(macOnly, release, 'win', 'x64')).toBeNull()
     expect(pickAsset(game, release, 'other', 'x64')).toBeNull()
   })
+  it('компактная сборка, если компьютер её тянет и она есть в релизе', () => {
+    const withLight = { ...game, light: { mac: 'River-Light-{version}-mac-{arch}.zip', win: 'River-Light-{version}-win-x64.zip' } } as Game
+    const r = { ...release, assets: [...release.assets, ...['River-Light-1.8.1-mac-arm64.zip', 'River-Light-1.8.1-win-x64.zip'].map((name) => ({ name, size: 1, url: 'u' }))] }
+    expect(pickAsset(withLight, r, 'mac', 'arm64', true)?.name).toBe('River-Light-1.8.1-mac-arm64.zip')
+    expect(pickAsset(withLight, r, 'win', 'x64', true)?.name).toBe('River-Light-1.8.1-win-x64.zip')
+    expect(pickAsset(withLight, r, 'mac', 'arm64', false)?.name).toBe('River-1.8.1-mac-arm64.zip')
+    // Под Intel компактную не собрали: ставим обычную.
+    expect(pickAsset(withLight, r, 'mac', 'x64', true)?.name).toBe('River-1.8.1-mac-x64.zip')
+    expect(pickAsset(game, r, 'mac', 'arm64', true)?.name).toBe('River-1.8.1-mac-arm64.zip')
+  })
   it('платформа из process.platform', () => {
     expect(currentPlatform('darwin')).toBe('mac')
     expect(currentPlatform('win32')).toBe('win')

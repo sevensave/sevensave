@@ -74,6 +74,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - run: npx vitest run src/main/gameUpdate.test.ts
       - name: Собрать dmg и zip
         run: |
           rm -rf release

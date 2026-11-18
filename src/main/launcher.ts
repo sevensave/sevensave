@@ -4,8 +4,10 @@ import { join } from 'node:path'
 import type { Catalog, Game } from '../shared/catalog'
 import { newer } from '../shared/version'
 import { loadCatalog, refreshCatalog, toView } from './catalog'
-import { Cancelled, STAGING, download, extract, recover, swapInstall, verify } from './installer'
-import { ReleaseFeed, currentPlatform, pickAsset, type Release } from './releases'
+import { Cancelled, STAGING, download, recover, swapInstall } from './installer'
+import { ReleaseFeed, currentPlatform, pickAsset, pickPatch, type Asset, type Release } from './releases'
+import { stageGame } from './gameUpdate'
+import { lightSupported } from './light'
 import { Runner } from './runner'
 import { JsonFile, parseInstalled, parseSettings, type InstalledFile } from './store'
 import type { Job, LauncherState, Settings, UpdateState } from '../preload/api'
@@ -20,6 +22,7 @@ export class Launcher {
   private online = true
   private update: UpdateState = { state: 'idle' }
   private platform = currentPlatform()
+  private light = false
   private installed: JsonFile<InstalledFile>
   private settings: JsonFile<Settings>
   private feed: ReleaseFeed
@@ -48,12 +51,13 @@ export class Launcher {
 
   async init() {
     this.catalog = await loadCatalog()
+    this.light = await lightSupported(this.platform)
     for (const g of this.catalog.games) this.releases[g.id] = this.feed.cached(g.repo)
+    await recover(this.library())
     // Папки игр, пропавшие с диска (удалили руками), считаем неустановленными.
     for (const [id, g] of Object.entries(this.installed.value.games)) {
       if (!fs.existsSync(g.dir)) delete this.installed.value.games[id]
     }
-    await recover(this.library())
     void this.refresh()
   }
 
@@ -76,8 +80,9 @@ export class Launcher {
         this.catalog.games.map((g) => {
           const r = this.releases[g.id]
           if (!r) return [g.id, null]
-          const asset = pickAsset(g, r, this.platform, process.arch)
-          return [g.id, { version: r.version, notes: r.notes, publishedAt: r.publishedAt, available: !!asset, size: asset?.size ?? null }]
+          const asset = pickAsset(g, r, this.platform, process.arch, this.light)
+          const patch = pickPatch(asset, r, this.platform, this.installed.value.games[g.id]?.version)
+          return [g.id, { version: r.version, notes: r.notes, publishedAt: r.publishedAt, available: !!asset, size: patch?.size ?? asset?.size ?? null }]
         }),
       ),
       jobs: this.jobs,
@@ -149,28 +154,30 @@ export class Launcher {
       this.online = online
       if (!release) throw new Error('Нет связи: не удалось узнать последнюю версию')
       this.releases[id] = release
-      const asset = pickAsset(game, release, this.platform, process.arch)
+      const asset = pickAsset(game, release, this.platform, process.arch, this.light)
       if (!asset) throw new Error('Для этого компьютера сборки пока нет')
       if (prev && !newer(release.version, prev.version)) {
         delete this.jobs[id]
         return
       }
       await fsp.mkdir(staging, { recursive: true })
-      const zip = join(staging, asset.name)
-      const started = Date.now()
-      this.jobs[id] = { phase: 'download', version: release.version, received: 0, total: asset.size, speed: 0 }
-      await download((u, i) => net.fetch(u, i), asset.url, zip, asset.size, ac.signal, ({ received, total }) => {
-        const secs = Math.max(0.5, (Date.now() - started) / 1000)
-        this.jobs[id] = { phase: 'download', version: release.version, received, total, speed: received / secs }
-        this.changed(false)
+      const transfer = async (file: Asset, path: string) => {
+        const started = Date.now()
+        this.jobs[id] = { phase: 'download', version: release.version, received: 0, total: file.size, speed: 0 }
+        this.changed()
+        await download((u, i) => net.fetch(u, i), file.url, path, file.size, ac.signal, ({ received, total }) => {
+          const secs = Math.max(0.5, (Date.now() - started) / 1000)
+          this.jobs[id] = { phase: 'download', version: release.version, received, total, speed: received / secs }
+          this.changed(false)
+        }, file.digest)
+        this.jobs[id] = { phase: 'install', version: release.version }
+        this.changed()
+      }
+      const unpacked = await stageGame({
+        full: asset, patch: pickPatch(asset, release, this.platform, prev?.version), installed: prev?.dir,
+        version: release.version, platform: this.platform, staging, signal: ac.signal,
+        executable: this.platform === 'mac' ? game.executable.mac : game.executable.win, transfer,
       })
-      this.jobs[id] = { phase: 'install', version: release.version }
-      this.changed()
-      const unpacked = join(staging, 'game')
-      await extract(zip, unpacked, this.platform)
-      await fsp.rm(zip, { force: true })
-      const exe = this.platform === 'mac' ? game.executable.mac : game.executable.win
-      await verify(unpacked, exe, this.platform)
       if (ac.signal.aborted) throw new Cancelled()
       await fsp.mkdir(join(target, '..'), { recursive: true })
       await swapInstall(unpacked, target)
@@ -234,7 +241,7 @@ export class Launcher {
   async setLibraryDir(dir: string | null) {
     this.settings.value.libraryDir = dir
     await this.settings.save()
-    if (dir) await recover(dir)
+    if (dir && !this.aborts.size) await recover(dir)
     this.changed()
   }
 

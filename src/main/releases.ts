@@ -5,6 +5,7 @@ export interface Asset {
   name: string
   size: number
   url: string
+  digest?: string
 }
 
 export interface Release {
@@ -24,13 +25,24 @@ export function currentPlatform(p: NodeJS.Platform = process.platform): Platform
  * Какой файл из релиза ставить на этот компьютер. Mac — сборка под свой процессор.
  * Windows — только x64: на ARM-ноутбуках она идёт через встроенную эмуляцию.
  */
-export function pickAsset(game: Game, release: Release, platform: Platform, arch: string): Asset | null {
+export function pickAsset(game: Game, release: Release, platform: Platform, arch: string, light = false): Asset | null {
   if (platform === 'other') return null
-  const template = game.assets[platform]
-  if (!template) return null
   const a = platform === 'mac' ? (arch === 'arm64' ? 'arm64' : 'x64') : 'x64'
-  const name = template.replaceAll('{version}', release.version).replaceAll('{arch}', a)
-  return release.assets.find((x) => x.name === name) ?? null
+  const find = (template?: string) => {
+    const name = template?.replaceAll('{version}', release.version).replaceAll('{arch}', a)
+    return release.assets.find((x) => x.name === name) ?? null
+  }
+  // Компактной сборки может не быть в конкретном релизе: тогда ставим обычную.
+  return (light ? find(game.light?.[platform]) : null) ?? find(game.assets[platform])
+}
+
+/** Патч привязан к установленной версии, платформе и точным байтам нового ZIP. */
+export function pickPatch(full: Asset | null, release: Release, platform: Platform, installed?: string): Asset | null {
+  const hash = full?.digest?.match(/^sha256:([a-f0-9]{64})$/)?.[1]
+  if (!installed || !full || !hash || platform === 'other') return null
+  const suffix = platform === 'mac' ? 'rsync.gz' : 'blocks.zip'
+  const name = `${full.name.slice(0, -4)}-from-${installed}-${hash}.${suffix}`
+  return release.assets.find((a) => a.name === name && a.size > 0 && a.size < full.size && /^sha256:[a-f0-9]{64}$/.test(a.digest ?? '')) ?? null
 }
 
 /**
@@ -61,14 +73,15 @@ export function parseRelease(data: unknown): Release | null {
     notes: typeof d.body === 'string' ? playerNotes(d.body) : '',
     publishedAt: typeof d.published_at === 'string' ? d.published_at : null,
     assets: assets.flatMap((a: Record<string, unknown>) =>
-      typeof a.name === 'string' && typeof a.size === 'number' && typeof a.browser_download_url === 'string'
-        ? [{ name: a.name, size: a.size, url: a.browser_download_url }]
+      a && typeof a.name === 'string' && typeof a.size === 'number' && typeof a.browser_download_url === 'string'
+        ? [{ name: a.name, size: a.size, url: a.browser_download_url, digest: typeof a.digest === 'string' ? a.digest : undefined }]
         : [],
     ),
   }
 }
 
 interface CacheEntry {
+  digestAware?: boolean
   etag: string | null
   release: Release
 }
@@ -106,14 +119,14 @@ export class ReleaseFeed {
     await this.load()
     const prev = this.cache[repo]
     const headers: Record<string, string> = { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' }
-    if (prev?.etag) headers['If-None-Match'] = prev.etag
+    if (prev?.digestAware && prev.etag) headers['If-None-Match'] = prev.etag
     try {
       const res = await this.fetcher(`https://api.github.com/repos/${repo}/releases/latest`, { headers })
       if (res.status === 304 && prev) return { release: prev.release, online: true }
       if (!res.ok) return { release: prev?.release ?? null, online: res.status < 500 }
       const release = parseRelease(await res.json())
       if (!release) return { release: prev?.release ?? null, online: true }
-      this.cache[repo] = { etag: res.headers.get('etag'), release }
+      this.cache[repo] = { digestAware: true, etag: res.headers.get('etag'), release }
       await writeFile(this.file, JSON.stringify(this.cache)).catch(() => {})
       return { release, online: true }
     } catch {
