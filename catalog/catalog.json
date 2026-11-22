@@ -80,6 +80,10 @@
         "mac": "Ktoya-{version}-mac-{arch}.zip",
         "win": "Ktoya-{version}-win-x64.zip"
       },
+      "light": {
+        "mac": "Ktoya-Light-{version}-mac-{arch}.zip",
+        "win": "Ktoya-Light-{version}-win-x64.zip"
+      },
       "executable": { "mac": "Ktoya.app", "win": "Ktoya.exe" },
       "art": {
         "icon": "icon.png",
